@@ -1,0 +1,71 @@
+create database lib;
+
+use lib;
+
+create table readers (
+id int,
+first_name varchar(255),
+surname varchar(255),
+age int,
+activity varchar(255),
+books_active int,
+primary key (id)
+);
+
+create table administration (
+id int,
+first_name varchar(255),
+surname varchar(255),
+age int,
+activity varchar(255),
+salary int,
+reading_rooms int,
+primary key (id)
+);
+
+create table staff (
+id int,
+first_name varchar(255),
+surname varchar(255),
+age int,
+activity varchar(255),
+salary int,
+primary key (id)
+);
+
+insert into readers values (1, 'Alex', 'Ivanov', 38, 'act', 7), 
+(2, 'Nikol', 'Show', 17, 'inact', 12),
+(3, 'Kirill', 'Iashkov', 31, 'act', 4),
+(4, 'Vasiliy', 'Kniznikov', 29, 'act', 75),
+(5, 'Ira', 'Grigoreva', 28, 'inact', 6);
+
+insert into administration values (1, 'Gomer', 'Simpson', 48, 'inact', 1200, 3), 
+(2, 'Liza', 'Vanhuten', 28, 'act', 2000, 6), 
+(3, 'Marge', 'Simpson', 46, 'act', 1500, 4), 
+(4, 'Bart', 'Simonov', 30, 'inact', 1000, 2), 
+(5, 'Maggie', 'Mond', 18, 'act', 500, 1);
+
+insert into staff values (1, 'Max', 'Crazy', 58, 'inact', 1200), 
+(2, 'Gregor', 'Petkovich', 66, 'act', 950), 
+(3, 'Dilan', 'Larkin', 26, 'inact', 1000), 
+(4, 'Tyler', 'Bertuzzi', 42, 'act', 1100), 
+(5, 'Andrew', 'Copp', 37, 'inact', 1300); 
+
+select * from readers
+where activity = 'act' and books_active > 0;
+
+select first_name, surname, salary from administration
+where salary > 1100
+UNION
+select first_name, surname, salary from staff
+where salary > 1100
+order by salary;
+
+select first_name, surname, age, activity, '0' as salary, books_active, '0' as reading_rooms, 'readers' as category from readers
+where activity = 'act'
+UNION
+select  first_name, surname, age, activity,  salary, '0', reading_rooms, 'administration' from administration
+where activity = 'act'
+UNION
+select  first_name, surname, age, activity, salary, '0', '0', 'staff' from staff
+where activity = 'act';
